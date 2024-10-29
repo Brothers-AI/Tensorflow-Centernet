@@ -1,0 +1,40 @@
+{
+    "stem_block": {
+        "interm_channels": 40,
+        "out_channels": 24
+    },
+    "layers": [
+        {
+            "in_channels": [24, 32, 32, 32],
+            "out_channels": [32, 32, 32, 32],
+            "kernel_sizes": [3, 3, 3, 3],
+            "strides": [2, 1, 1, 1],
+            "expand_ratios": [6, 3, 3, 3],
+            "add_shortcuts": [false, true, true, true]
+        },
+        {
+            "in_channels": [32, 48, 48, 48],
+            "out_channels": [48, 48, 48, 48],
+            "kernel_sizes": [3, 3, 3, 5],
+            "strides": [2, 1, 1, 1],
+            "expand_ratios": [6, 3, 3, 3],
+            "add_shortcuts": [false, true, true, true]
+        },
+        {
+            "in_channels": [48, 88, 88, 104, 104, 104],
+            "out_channels": [88, 88, 104, 104, 104, 104],
+            "kernel_sizes": [3, 3, 5, 3, 3, 3],
+            "strides": [2, 1, 1, 1, 1, 1],
+            "expand_ratios": [6, 3, 6, 3, 3, 3],
+            "add_shortcuts": [false, true, false, true, true, true]
+        },
+        {
+            "in_channels": [104, 216, 216, 216, 216],
+            "out_channels": [216, 216, 216, 216, 360],
+            "kernel_sizes": [5, 5, 5, 3, 5],
+            "strides": [2, 1, 1, 1, 1],
+            "expand_ratios": [6, 3, 3, 3, 6],
+            "add_shortcuts": [false, true, true, true, false]
+        }
+    ]
+}

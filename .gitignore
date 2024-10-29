@@ -77,10 +77,17 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+notebook
 
 # IPython
 profile_default/
 ipython_config.py
+
+# project specific
+tools/tests
+tools/scripts
+tools/generation
+tools/evaluate_raw.py
 
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is

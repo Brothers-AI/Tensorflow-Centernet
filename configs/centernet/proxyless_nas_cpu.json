@@ -1,0 +1,97 @@
+{
+    "exp_name": "centernet",
+    "save_dir": "./save_dir",
+    "device": "cpu",
+    "ckpt_path": null,
+    "pretrained_path": null,
+    "initial_epoch": 0,
+    "resume": true,
+    "model_resolution": [512, 768],
+    "tf_module": "TFModuleV1",
+    "model": {
+        "backbone": {
+            "name": "ProxylessNAS",
+            "config_path": "configs/backbone_configs/proxyless_nas_cpu.json"
+        },
+        "neck": {
+            "name": "DeconvLayer",
+            "deconv_channels": [128, 64, 32],
+            "deconv_kernels": [4, 4, 4]
+        },
+        "head": {
+            "name": "CenterNet",
+            "interm_channels": 16,
+            "num_classes": 7
+        },
+        "losses": {
+            "loss_hm": {
+                "name": "FocalLoss",
+                "loss_weight": 1.0
+            },
+            "loss_size": {
+                "name": "L1Loss",
+                "type": "size",
+                "loss_weight": 0.1
+            },
+            "loss_offset": {
+                "name": "L1Loss",
+                "type": "offset",
+                "loss_weight": 1.0
+            }
+        },
+        "post_proc": {
+            "name": "CenterNetPostProc",
+            "score_threshold": 0.3,
+            "iou_threshold": 0.5,
+            "max_objects": 100
+        }
+    },
+    "train_params": {
+        "lr": 1.25e-4,
+        "batch_size": 2,
+        "num_epochs": 150,
+        "num_workers": 8,
+        "eval_freq": 1,
+        "dataset": {
+            "name": "CocoDatasetV2",
+            "root_dir": "data/COCO",
+            "json_file_name": "instances_train2017.json",
+            "split_suffix": "train",
+            "max_objects": 100
+        },
+        "transforms": {
+            "RandomColorSpace": {"prob": 0.5},
+            "RandomBlur": {"prob": 0.5},
+            "RandomSharping": {"prob": 0.5},
+            "RandomHueSaturation": {"prob": 0.35},
+            "RandomBrightnessContrast": {"prob": 0.35},
+            "RandomSolarize": {"prob": 0.2},
+            "RandomHFlip": {"prob": 0.5},
+            "RandomCropResized": {"prob": 0.35},
+            "RandomRotate": {"prob": 0.4},
+            "BasicMosaicAugmentation": {"prob": 0.35},
+            "ResizeTo": {},
+            "Normalize": {
+                "mean": [127, 127, 127],
+                "std": [127, 127, 127]
+            }
+        }
+    },
+    "val_params": {
+        "num_workers": 8,
+        "dataset": {
+            "name": "CocoDatasetV2",
+            "root_dir": "data/COCO",
+            "json_file_name": "instances_val2017.json",
+            "split_suffix": "val",
+            "max_objects": 100
+        },
+        "transforms": {
+            "ResizeTo": {},
+            "Normalize": {
+                "mean": [127, 127, 127],
+                "std": [127, 127, 127]
+            }
+        }
+    }
+}
